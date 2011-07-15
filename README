@@ -1,0 +1,3 @@
+typomania is an open source project which makes use of HTML5 and WebGL. This is a browser based typing game which can be played using any WebGL compatible browser.
+
+    We took help of C3DL for rendering purpose and Blender for creating 3d models. 
