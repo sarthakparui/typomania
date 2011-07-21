@@ -76,6 +76,8 @@ var levelDependantExponentialOffset;
 var levelDependantVelocityOffset;
 var gameOverModels = new Array(8);
 var gameOn = 1;
+var rightSound;
+var wrongSound;
 
 function checkCollisionWithWall(proximityCheckCounter2)
 {
@@ -223,6 +225,7 @@ function endScene()
 
 function gameOver()
 {
+	//wrongSound.play();
 	gameOn = 0;
 	for(var i = 0; i < 8; i++)
     {
@@ -419,6 +422,8 @@ function canvasMain(canvasName){
 	
     //c3dl.Scene.prototype.removeUpdateCallback = function(){updateHandler = null;};
 	scorefield=document.getElementById("score");
+	rightSound = document.getElementById("rightSound");
+	wrongSound = document.getElementById("wrongSound");
 	levelfield = document.getElementById("level");
 	setCookie('Score', score,1,'/','','');
     c3dl.debug.setVisible(false);
@@ -587,6 +592,8 @@ function kbdCheck(event){
 	{
 		  if(event.keyCode >= 65 && event.keyCode <= 90 && referenceArray[event.keyCode - 65].length > 0)
 		  {
+			rightSound.currentTime=0;
+			rightSound.play();
 			alphabetPositionToRemove=referenceArray[event.keyCode - 65].pop();
 			ballExplodePosition=ballArray[alphabetPositionToRemove].getPosition();
 			ballArray[alphabetPositionToRemove].visible = false;
@@ -599,13 +606,19 @@ function kbdCheck(event){
 		  }
 		  else if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 48 && event.keyCode <= 57))
 		   {
-			   if(mistakeCount >=0)
+			   if(mistakeCount <= 1)
 			   {		
+				wrongSound.currentTime=0;
 				scn.removeObjectFromScene(lives[mistakeCount]);
 				mistakeCount++;//user has typed a letter that is not present in the current scene
+				wrongSound.play();
 			   }
-			   else
-				gameOver();
+			    else
+			    {
+					wrongSound.currentTime=0;
+					wrongSound.play();
+					gameOver();
+				}
 		   }
 	}
 }
