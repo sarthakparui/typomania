@@ -16,7 +16,7 @@ var initialWall3Z = 0;
 var initialWall4X = -10;
 var initialWall4Y = 225;
 var initialWall4Z = 0;
-var initialWall5X = -15;
+var initialWall5X = 10;
 var initialWall5Y = -3;
 var initialWall5Z = 400;
 
@@ -446,12 +446,9 @@ function canvasMain(canvasName){
     if(renderer.isReady() )
     {
     initWalls();
-    cam = new c3dl.OrbitCamera();				//@@@@@@ TODO : Camera setup to be changed    		
-	cam.setFarthestDistance(1000);
-	cam.setClosestDistance(60);
-	cam.setPosition([0.0,0.0,0.0]);
-	cam.setOrbitPoint([0.0, 0.0, -200.0]);
-	cam.setDistance(400);
+    cam = new c3dl.FreeCamera();  		
+	cam.setLookAtPoint(new Array(0.0, 0.0, 0.0));
+	cam.setPosition([20.0,0.0,-650]);
 	scn.setCamera(cam);
 	scn.setAmbientLight([.5,.5,.5,1]);
 	var diffuse = new c3dl.PositionalLight();
@@ -505,15 +502,6 @@ function canvasMain(canvasName){
 	 }
     initLife("life");
 	scn.startScene();
-	/*var paths = new Array("./IMGS/sphereA.jpg","./IMGS/sphereB.jpg","./IMGS/sphereC.jpg","./IMGS/sphereD.jpg",
-                          "./IMGS/sphereE.jpg","./IMGS/sphereF.jpg","./IMGS/sphereG.jpg","./IMGS/sphereH.jpg",
-                          "./IMGS/sphereI.jpg","./IMGS/sphereJ.jpg","./IMGS/sphereK.jpg","./IMGS/sphereL.jpg",
-                          "./IMGS/sphereM.jpg","./IMGS/sphereN.jpg","./IMGS/sphereO.jpg","./IMGS/sphereP.jpg",
-                          "./IMGS/sphereQ.jpg","./IMGS/sphereR.jpg","./IMGS/sphereS.jpg","./IMGS/sphereT.jpg",
-                          "./IMGS/sphereU.jpg","./IMGS/sphereV.jpg","./IMGS/sphereW.jpg","./IMGS/sphereX.jpg",
-                          "./IMGS/sphereY.jpg","./IMGS/sphereZ.jpg");
-    scn.preloadImages(paths);
-	paths.splice(0,paths.length);*/
 	scn.setUpdateCallback(synchronizedCallback);
     scn.setKeyboardCallback(kbdCheck);
  }
@@ -582,12 +570,14 @@ function initWalls()
  	wall[4].setPosition(new Array(initialWall5X,initialWall5Y,initialWall5Z));
 
  	
- 	wall[0].roll(Math.PI * ( 0 / 180));
+	wall[0].yaw(Math.PI * ( 90 / 180 ));
  	wall[1].roll(Math.PI * (90 / 180));
  	wall[2].roll(Math.PI * (90 / 180 ));
+	wall[3].yaw(Math.PI * ( 90 / 180 ));
  	wall[4].roll(Math.PI * (1 / 180 ));
  	wall[2].pitch( - Math.PI * ( 2 / 180));
  	wall[4].pitch(Math.PI * (90 / 180));
+	wall[4].yaw(Math.PI * ( 89.2 / 180 ));
 }
 //initWall END
 
