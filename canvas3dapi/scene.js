@@ -1371,7 +1371,7 @@ c3dl.Scene = function ()
       c3dl.debug.logError("preloadImage() must be called after Scene's init()");
     }
   }
-/*******************Sougata's mod******************************/
+/*******************SougataSougata's mod******************************/
 //@private custom implemented method to delete all the balls in the scene at end of game
     c3dl.Scene.prototype.removeAllBalls = function()
     {
