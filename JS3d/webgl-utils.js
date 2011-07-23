@@ -91,7 +91,7 @@ var GET_A_WEBGL_BROWSER = '' +
 var OTHER_PROBLEM = '' +
   "It doesn't appear your computer can support WebGL, or maybe your browser is not properly configured!<br/>" +
   '<ul><li>If you are using google chrome use the --enable-gpu-blacklist start switch while starting chrome</li>'
-  +'<li>If you are using firefox version 4.0 or above go to the configuration page and enable the webgl.force-enable optiont</li>'
+  +'<li>If you are using firefox version 4.0 or above go to the configuration page and enable the webgl.force-enable option</li>'
   +'For more information visit our FAQ page'
   +'</ul>';
  var COOKIES_NOT_ENABLED = 'Please enable cookies in your browser to play this game.';
