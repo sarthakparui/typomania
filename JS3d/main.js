@@ -78,8 +78,10 @@ var gameOverModels = new Array(8);
 var gameOn = 1;
 var rightSound;
 var wrongSound;
+var renderer;
 //log
-var log;
+var log
+
 
 function checkCollisionWithWall(proximityCheckCounter2)
 {
@@ -181,25 +183,6 @@ function proximityCheck()
 	}
 }
 
-function setCookie(name, value, expires, path, domain, secure )
-{
-var today = new Date();
-today.setTime(today.getTime());
-if (expires)
-{
-expires = expires * 1000 * 60;
-}
-var expires_date = new Date(today.getTime() + (expires));
-
-document.cookie = name + '=' + escape(value) +
-((expires) ? ';expires=' + expires_date.toGMTString() : '') +
-((path) ? ';path=' + path : '') +
-((domain) ? ';domain=' + domain : '') +
-((secure) ? ';secure' : '');
-}
-
-
-
 function endScene()
 {
 	//TODO: clear memory
@@ -223,6 +206,8 @@ function endScene()
 	referenceArray.splice(0, referenceArray.length);				//## referenceArray splice and deleted scoreValue and levelValue
 	//scn.stopScene();
 	//scn.removeUpdateCallback();
+	document.removeEventListener("keyup", kbdCheck, false);
+	document.removeEventListener("keydown", kbdCheck, false);
 }
 
 function gameOver()
@@ -246,9 +231,7 @@ function gameOver()
 	gameOverModels[5].setTexture('./IMGS/gameOverM.jpg');
 	gameOverModels[6].setTexture('./IMGS/gameOverA.jpg');
 	gameOverModels[7].setTexture('./IMGS/gameOverG.jpg');
-
-
-setCookie('Score', score, 1, '/', '', '');
+	
     for (var i = 0; i < 3; i++)
     {
         if (lives[i] != undefined)
@@ -411,7 +394,7 @@ function ballAddition(currentFreePosition2)
   isGenerating = 0;
 }
 
-function initLife(canvasName)
+function initLife()
 {
     for (var i = 0; i < 3; ++i)
     {
@@ -420,8 +403,8 @@ function initLife(canvasName)
         lives[i].ownCollisionIndex = -99;
         lives[i].setPosition(new Array(10, 0, -100));
         lives[i].init('./IMGS/sphere1.dae');
-        lives[i].setTexture('./IMGS/heart.png');
         lives[i].setPickable(false);
+		lives[i].visible=false;
         lives[i].setAngularVel([0, 0.005, 0]);
         scn.addObjectToScene(lives[i]);
     }
@@ -429,6 +412,16 @@ function initLife(canvasName)
     lives[1].setPosition([-360, 220, 0]);
     lives[2].setPosition([-410, 220, 0]);
 }
+
+function renderLife()
+{
+	for(i=0;i<3;i++)
+	{
+		lives[i].setTexture("./IMGS/heart.png");
+		lives[i].visible = true;
+	}
+}
+
 
 function canvasMain(canvasName) {
 
@@ -463,7 +456,6 @@ function canvasMain(canvasName) {
 
     if (renderer.isReady())
     {
-    initWalls();
     cam = new c3dl.FreeCamera();
 	cam.setLookAtPoint(new Array(0.0, 0.0, 0.0));
 	cam.setPosition([20.0, 0.0, -650]);
@@ -495,16 +487,16 @@ function canvasMain(canvasName) {
     //add the particle system
     explode = new c3dl.ParticleSystem();
     explode.setMinVelocity([-8, -8, -8]);
-    explode.setMaxVelocity([8, 8, 8]);
+    explode.setMaxVelocity([28, 28, 28]);
     explode.setMinLifetime(0.5);
     explode.setMaxLifetime(1.6);
     explode.setMinColor([0.5, 0.4, 0.0, 0.5]);
     explode.setMaxColor([1, 0.6, 0, 1]);
-    explode.setMaxSize(12);
+    explode.setMaxSize(6);
     explode.setSrcBlend(c3dl.ONE);
     explode.setDstBlend(c3dl.ONE);
     explode.setTexture('./IMGS/flare.jpg');
-    explode.setAcceleration([2, 2, 0]);
+    explode.setAcceleration([4, 4, 0]);
     explode.setEmitRate(0);
     explode.init(50);
     scn.addObjectToScene(explode);
@@ -518,11 +510,30 @@ function canvasMain(canvasName) {
 		referenceArray[i] = [];
 		proximityPositionArray[i] = [];
 	 }
-    initLife('life');
-	scn.startScene();
-	scn.setUpdateCallback(synchronizedCallback);
-    scn.setKeyboardCallback(kbdCheck);
+	 var paths = new Array("./IMGS/WallTextureBricksFull.png","./IMGS/sphereA.jpg","./IMGS/sphereB.jpg","./IMGS/sphereC.jpg","./IMGS/sphereD.jpg",
+                          "./IMGS/sphereE.jpg","./IMGS/sphereF.jpg","./IMGS/sphereG.jpg","./IMGS/sphereH.jpg",
+                          "./IMGS/sphereI.jpg","./IMGS/sphereJ.jpg","./IMGS/sphereK.jpg","./IMGS/sphereL.jpg",
+                          "./IMGS/sphereM.jpg","./IMGS/sphereN.jpg","./IMGS/sphereO.jpg","./IMGS/sphereP.jpg",
+                          "./IMGS/sphereQ.jpg","./IMGS/sphereR.jpg","./IMGS/sphereS.jpg","./IMGS/sphereT.jpg",
+                          "./IMGS/sphereU.jpg","./IMGS/sphereV.jpg","./IMGS/sphereW.jpg","./IMGS/sphereX.jpg",
+                          "./IMGS/sphereY.jpg","./IMGS/sphereZ.jpg","./IMGS/gameOverG.jpg","./IMGS/gameOverA.jpg",
+						  "./IMGS/gameOverM.jpg","./IMGS/gameOverE.jpg","./IMGS/gameOverO.jpg","./IMGS/gameOverV.jpg",
+						  "./IMGS/gameOverR.jpg","./IMGS/flare.jpg","./IMGS/heart.png");
+	initLife();
+	preloadAndStart(paths);    
  }
+}
+
+function preloadAndStart(imagePaths)
+{
+	for (var i = 0, len = imagePaths.length; i < len; i++)
+	{
+		renderer.addTexture(imagePaths[i]);
+	}
+	//start game (ball generation) only after all the textures are completely loaded
+	initWalls();
+	scn.startScene();
+	setTimeout(function(){scn.setUpdateCallback(synchronizedCallback);scn.setKeyboardCallback(kbdCheck);renderLife();},1000);
 }
 
 function synchronizedCallback(time)
@@ -612,7 +623,7 @@ function kbdCheck(event) {
 			ballArray[alphabetPositionToRemove].visible = false;
 			--totalBallCount;
 			explode.setPosition(ballExplodePosition);
-			explode.emit(30);
+			explode.emit(100);
 			++score;
 			scorefield.value = score;
 			currentFreePosition = alphabetPositionToRemove;
@@ -628,6 +639,7 @@ function kbdCheck(event) {
 			   }
 			    else
 			    {
+					scn.pauseSceneUpdate();
 					wrongSound.currentTime = 0;
 					wrongSound.play();
 					gameOver();
@@ -635,3 +647,4 @@ function kbdCheck(event) {
 		   }
 	}
 }
+

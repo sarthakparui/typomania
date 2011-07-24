@@ -38,18 +38,8 @@ c3dl.WebGL = c3dl.inherit(c3dl.Renderer, function () {
   this.ID = c3dl.getNextRendererID();
   this.STANDARD_PROGRAM_ID = null;
 
-  //this.textureQueue = [];
+  this.textureQueue = [];
   
-  this.textureQueue = new Array("./IMGS/sphereA.jpg","./IMGS/sphereB.jpg","./IMGS/sphereC.jpg","./IMGS/sphereD.jpg",
-                          "./IMGS/sphereE.jpg","./IMGS/sphereF.jpg","./IMGS/sphereG.jpg","./IMGS/sphereH.jpg",
-                          "./IMGS/sphereI.jpg","./IMGS/sphereJ.jpg","./IMGS/sphereK.jpg","./IMGS/sphereL.jpg",
-                          "./IMGS/sphereM.jpg","./IMGS/sphereN.jpg","./IMGS/sphereO.jpg","./IMGS/sphereP.jpg",
-                          "./IMGS/sphereQ.jpg","./IMGS/sphereR.jpg","./IMGS/sphereS.jpg","./IMGS/sphereT.jpg",
-                          "./IMGS/sphereU.jpg","./IMGS/sphereV.jpg","./IMGS/sphereW.jpg","./IMGS/sphereX.jpg",
-                          "./IMGS/sphereY.jpg","./IMGS/sphereZ.jpg","./IMGS/gameOverG.jpg","./IMGS/gameOverA.jpg",
-						  "./IMGS/gameOverM.jpg","./IMGS/gameOverE.jpg","./IMGS/gameOverO.jpg","./IMGS/gameOverV.jpg",
-						  "./IMGS/gameOverR.jpg","./IMGS/WallTextureBricksFull.png","./IMGS/flare.jpg");
-
   // have the vbos to render point spheres been created
   this.pointSphereRenderReady = false;
 

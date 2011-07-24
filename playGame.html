@@ -3,16 +3,17 @@
         <title>~#!TYPO!#~</title>
         <script type="text/javascript" src="./JS3d/webgl-utils.js"></script>
         <script type="application/javascript" src="./canvas3dapi/c3dapi.js" ></script>
+        <script type="text/javascript" src="sapCookie.js"></script>
         <script type="application/javascript" src="./JS3d/main.js"></script>
-        <script type="text/javascript">
+		<script type="application/javascript" src="./JS3d/rip.js"></script>
+		<script type="text/javascript">
             window.onload = function()
             {	
-		        document.getElementById("gameCanvas").focus();
+                document.getElementById("gameCanvas").focus();
                 canvas = document.getElementById("gameCanvas");
                 gl = WebGLUtils.setupWebGL(canvas);
                 if (!gl)
                 {	
-					alert(getCookie("not_supported"));
                   return;
                 }
             }
